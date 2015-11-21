@@ -13,6 +13,7 @@
 #include <core_blas.h>
 
 #include "BMatrix.hpp"
+#include "TMatrix.hpp"
 
 void GEQRT( BMatrix *A, BMatrix *T );
 void TSQRT( BMatrix *A1, BMatrix *A2, BMatrix *T );
@@ -25,7 +26,7 @@ void TTQRT( BMatrix *A1, BMatrix *A2, BMatrix *T );
 void STRFB( PLASMA_enum side, PLASMA_enum trans,
 		   BMatrix *A, BMatrix *T, BMatrix *C1, BMatrix *C2 );
 
-//void dorgqr( const TMatrix< BMatrix > A, const TMatrix< BMatrix > T, TMatrix< BMatrix >& Q );
+void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q );
 
 
 #endif /* COREBLAS_HPP_ */

@@ -10,12 +10,12 @@
 #include <omp.h>
 #include "CoreBlas.hpp"
 
-//#ifndef __Test__Min__
-//#define __Test__Min__
+#ifndef __DEF__MIN__
+#define __DEF__MIN__
 
-//#define min(a,b) (((a)<(b)) ? (a) : (b))
+#define min(a,b) (((a)<(b)) ? (a) : (b))
 
-//#endif // __Test__Min__
+#endif // __DEF__MIN__
 
 #ifndef  __DEF_MAX__
 #define  __DEF_MAX__
@@ -30,24 +30,24 @@
  */
 void GEQRT( BMatrix *A, BMatrix *T )
 {
-  const unsigned int M = A->m();
-  const unsigned int N = A->n();
-  const unsigned int IB = A->ib();
-  const unsigned int LDA = A->m();
-  const unsigned int LDT = T->m();
+	const int M = A->m();
+	const int N = A->n();
+	const int IB = A->ib();
+	const int LDA = A->m();
+	const int LDT = T->m();
 
-  const unsigned int NB = max(LDA,LDT);
+	const int NB = max(LDA,LDT);
 
-  double* WORK = new double[ IB*NB ];
-  double* TAU = new double[ NB ];
+	double* WORK = new double[ IB*NB ];
+	double* TAU = new double[ NB ];
 
-  CORE_dgeqrt( M, N, IB,
-	       A->top(), LDA,
-	       T->top(), LDT,
-	       TAU, WORK );
+	CORE_dgeqrt( M, N, IB,
+			A->top(), LDA,
+			T->top(), LDT,
+			TAU, WORK );
 
-  delete [] WORK;
-  delete [] TAU;
+	delete [] WORK;
+	delete [] TAU;
 }
 
 /*
@@ -59,29 +59,29 @@ void GEQRT( BMatrix *A, BMatrix *T )
  */
 void TSQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
 {
-  const unsigned int M = A2->m();
-  const unsigned int N = A1->n();
+	const int M = A2->m();
+	const int N = A1->n();
 
-  assert( N == A2->n() );
+	assert( N == A2->n() );
 
-  const unsigned int IB = A1->ib();
-  const unsigned int LDA1 = A1->m();
-  const unsigned int LDA2 = A2->m();
-  const unsigned int LDT = T->m();
+	const int IB = A1->ib();
+	const int LDA1 = A1->m();
+	const int LDA2 = A2->m();
+	const int LDT = T->m();
 
-  const unsigned int NB = max(LDA1,LDT);
+	const int NB = max(LDA1,LDT);
 
-  double* WORK = new double[ IB*NB ];
-  double* TAU = new double[ NB ];
+	double* WORK = new double[ IB*NB ];
+	double* TAU = new double[ NB ];
 
-  CORE_dtsqrt( M, N, IB,
-	       A1->top(), LDA1,
-	       A2->top(), LDA2,
-	       T->top(), LDT,
-	       TAU, WORK );
+	CORE_dtsqrt( M, N, IB,
+			A1->top(), LDA1,
+			A2->top(), LDA2,
+			T->top(), LDT,
+			TAU, WORK );
 
-  delete [] WORK;
-  delete [] TAU;
+	delete [] WORK;
+	delete [] TAU;
 }
 
 /*
@@ -100,37 +100,37 @@ void TSQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
  * @param[in,out] C (M x N) tile matrix
  */
 void LARFB( PLASMA_enum side, PLASMA_enum trans,
-	    BMatrix *A, BMatrix *T, BMatrix *C )
+		BMatrix *A, BMatrix *T, BMatrix *C )
 {
-  assert( (side==PlasmaLeft) || (side==PlasmaRight) );
-  assert( (trans==PlasmaTrans) || (trans==PlasmaNoTrans) );
+	assert( (side==PlasmaLeft) || (side==PlasmaRight) );
+	assert( (trans==PlasmaTrans) || (trans==PlasmaNoTrans) );
 
-  const unsigned int M = C->m();
-  const unsigned int N = C->n();
-  const unsigned int K = A->n();
+	const int M = C->m();
+	const int N = C->n();
+	const int K = A->n();
 
-  if (side == PlasmaLeft)
-    assert( M >= K );
-  else // (side == PlasmaRight)
-    assert( N >= K );
+	if (side == PlasmaLeft)
+		assert( M >= K );
+	else // (side == PlasmaRight)
+		assert( N >= K );
 
-  const unsigned int IB = A->ib();
-  const unsigned int LDA = A->m();
-  const unsigned int LDT = T->m();
-  const unsigned int LDC = C->m();
+	const int IB = A->ib();
+	const int LDA = A->m();
+	const int LDT = T->m();
+	const int LDC = C->m();
 
-  const unsigned int NB = max(LDA,LDT);
+	const int NB = max(LDA,LDT);
 
-  double* WORK = new double[ IB*NB ];
+	double* WORK = new double[ IB*NB ];
 
-  CORE_dormqr( side, trans,
-	       M, N, K, IB,
-	       A->top(), LDA,
-	       T->top(), LDT,
-	       C->top(), LDC,
-	       WORK, NB );
+	CORE_dormqr( side, trans,
+			M, N, K, IB,
+			A->top(), LDA,
+			T->top(), LDT,
+			C->top(), LDC,
+			WORK, NB );
 
-  delete [] WORK;
+	delete [] WORK;
 }
 
 /*
@@ -150,55 +150,55 @@ void LARFB( PLASMA_enum side, PLASMA_enum trans,
  * @param[in,out] C2 (M2 x N2) tile matrix
  */
 void SSRFB( PLASMA_enum side, PLASMA_enum trans,
-	    BMatrix *A, BMatrix *T,
+		BMatrix *A, BMatrix *T,
 	    BMatrix *C1, BMatrix *C2 )
 {
-  assert( (side==PlasmaLeft) || (side==PlasmaRight) );
-  assert( (trans==PlasmaTrans) || (trans==PlasmaNoTrans) );
+	assert( (side==PlasmaLeft) || (side==PlasmaRight) );
+	assert( (trans==PlasmaTrans) || (trans==PlasmaNoTrans) );
 
-  const unsigned int M1 = C1->m();
-  const unsigned int M2 = C2->m();
+	const int M1 = C1->m();
+	const int M2 = C2->m();
 
-  if (side == PlasmaRight)
-    assert( M2 == M1);
+	if (side == PlasmaRight)
+		assert( M2 == M1);
 
-  const unsigned int N1 = C1->n();
-  const unsigned int N2 = C2->n();
+	const int N1 = C1->n();
+	const int N2 = C2->n();
 
-  if (side == PlasmaLeft)
-    assert( N2 == N1);
+	if (side == PlasmaLeft)
+		assert( N2 == N1);
 
-  const unsigned int K = A->n();
+	const int K = A->n();
 
-  const unsigned int IB = C1->ib();
-  const unsigned int LDA1 = C1->m();
-  const unsigned int LDA2 = C2->m();
-  const unsigned int LDV = A->m();
-  const unsigned int LDT = T->m();
+	const int IB = C1->ib();
+	const int LDA1 = C1->m();
+	const int LDA2 = C2->m();
+	const int LDV = A->m();
+	const int LDT = T->m();
 
-  int LDWORK;
-  if (side == PlasmaLeft)
-    LDWORK = IB;
-  else // side == PlasmaRight
-    LDWORK = M1;
+	int LDWORK;
+	if (side == PlasmaLeft)
+		LDWORK = IB;
+	else // side == PlasmaRight
+		LDWORK = M1;
 
-  int WSIZE;
-  if (side == PlasmaLeft)
-    WSIZE = N1;
-  else // side == PlasmaRight
-    WSIZE = IB;
+	int WSIZE;
+	if (side == PlasmaLeft)
+		WSIZE = N1;
+	else // side == PlasmaRight
+		WSIZE = IB;
 
-  double* WORK = new double[ LDWORK * WSIZE ];
+	double* WORK = new double[ LDWORK * WSIZE ];
 
-  CORE_dtsmqr( side, trans,
-	       M1, N1, M2, N2, K, IB,
-	       C1->top(), LDA1,
-	       C2->top(), LDA2,
-	       A->top(), LDV,
-	       T->top(), LDT,
-	       WORK, LDWORK);
+	CORE_dtsmqr( side, trans,
+			M1, N1, M2, N2, K, IB,
+			C1->top(), LDA1,
+			C2->top(), LDA2,
+			A->top(), LDV,
+			T->top(), LDT,
+			WORK, LDWORK);
 
-  delete [] WORK;
+	delete [] WORK;
 }
 
 /*
@@ -219,29 +219,29 @@ void SSRFB( PLASMA_enum side, PLASMA_enum trans,
  */
 void TTQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
 {
-  const unsigned int M = A2->m();
-  const unsigned int N = A1->n();
+	const int M = A2->m();
+	const int N = A1->n();
 
-  assert( N == A2->n() );
+	assert( N == A2->n() );
 
-  const unsigned int IB = A1->ib();
-  const unsigned int LDA1 = A1->m();
-  const unsigned int LDA2 = A2->m();
-  const unsigned int LDT = T->m();
+	const int IB = A1->ib();
+	const int LDA1 = A1->m();
+	const int LDA2 = A2->m();
+	const int LDT = T->m();
 
-  const unsigned int NB = max(LDA1,LDT);
+	const int NB = max(LDA1,LDT);
 
-  double* WORK = new double[ IB*NB ];
-  double* TAU = new double[ NB ];
+	double* WORK = new double[ IB*NB ];
+	double* TAU = new double[ NB ];
 
-  CORE_dttqrt( M, N, IB,
-	       A1->top(), LDA1,
-	       A2->top(), LDA2,
-	       T->top(), LDT,
-	       TAU, WORK );
+	CORE_dttqrt( M, N, IB,
+			A1->top(), LDA1,
+			A2->top(), LDA2,
+			T->top(), LDT,
+			TAU, WORK );
 
-  delete [] WORK;
-  delete [] TAU;
+	delete [] WORK;
+	delete [] TAU;
 }
 
 /*
@@ -261,47 +261,84 @@ void TTQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
  * @param[in,out] C2 (M2 x N2) tile matrix
  */
 void STRFB( PLASMA_enum side, PLASMA_enum trans,
-	    BMatrix *A, BMatrix *T,
+		BMatrix *A, BMatrix *T,
 	    BMatrix *C1, BMatrix *C2 )
 {
-  assert( (side==PlasmaLeft) || (side==PlasmaRight) );
-  assert( (trans==PlasmaTrans) || (trans==PlasmaNoTrans) );
+	assert( (side==PlasmaLeft) || (side==PlasmaRight) );
+	assert( (trans==PlasmaTrans) || (trans==PlasmaNoTrans) );
 
-  const unsigned int M1 = C1->m();
-  const unsigned int M2 = C2->m();
+	const int M1 = C1->m();
+	const int M2 = C2->m();
 
-  const unsigned int N1 = C1->n();
-  const unsigned int N2 = C2->n();
+	const int N1 = C1->n();
+	const int N2 = C2->n();
 
-  const unsigned int K = A->n();
+	const int K = A->n();
 
-  const unsigned int IB = C1->ib();
-  const unsigned int LDA1 = C1->m();
-  const unsigned int LDA2 = C2->m();
-  const unsigned int LDV = A->m();
-  const unsigned int LDT = T->m();
+	const int IB = C1->ib();
+	const int LDA1 = C1->m();
+	const int LDA2 = C2->m();
+	const int LDV = A->m();
+	const int LDT = T->m();
 
-  unsigned int LDWORK;
-  if (side == PlasmaLeft)
-    LDWORK = IB;
-  else // side == PlasmaRight
-    LDWORK = M1;
+	int LDWORK;
+	if (side == PlasmaLeft)
+		LDWORK = IB;
+	else // side == PlasmaRight
+		LDWORK = M1;
 
-  unsigned int WSIZE;
-  if (side == PlasmaLeft)
-    WSIZE = N1;
-  else // side == PlasmaRight
-    WSIZE = IB;
+	int WSIZE;
+	if (side == PlasmaLeft)
+		WSIZE = N1;
+	else // side == PlasmaRight
+		WSIZE = IB;
 
-  double* WORK = new double[ LDWORK * WSIZE ];
+	double* WORK = new double[ LDWORK * WSIZE ];
 
-  CORE_dttmqr( side, trans,
-	       M1, N1, M2, N2, K, IB,
-	       C1->top(), LDA1,
-	       C2->top(), LDA2,
-	       A->top(), LDV,
-	       T->top(), LDT,
-	       WORK, LDWORK);
+	CORE_dttmqr( side, trans,
+			M1, N1, M2, N2, K, IB,
+			C1->top(), LDA1,
+			C2->top(), LDA2,
+			A->top(), LDV,
+			T->top(), LDT,
+			WORK, LDWORK);
 
-  delete [] WORK;
+	delete [] WORK;
+}
+
+/*
+ * dorgqr: genarates (M x N) orthogonal matrix Q: A = Q x R
+ *
+ * @param[in] A tile matrix
+ * @param[in] T tile matrix
+ * @param[in] Q tile matirx
+ *
+ */
+void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q )
+{
+	assert( A.N() == Q.N() );
+
+	const int aMT = A.mt();
+	const int aNT = A.nt();
+	const int qMT = Q.mt();
+	const int qNT = Q.nt();
+
+	for (int tk = min(aMT, aNT)-1; tk+1 >= 1; tk--)
+	{
+		for (int ti = qMT - 1; ti > tk; ti--)
+		{
+			#pragma omp parallel for
+			for (int tj = tk; tj < qNT; tj++)
+			{
+				SSRFB( PlasmaLeft, PlasmaNoTrans,
+						A(ti,tk), T(ti,tk), Q(tk,tj), Q(ti,tj) );
+			}
+		}
+		#pragma omp parallel for
+		for (int tj = tk; tj < qNT; tj++)
+		{
+			LARFB( PlasmaLeft, PlasmaNoTrans,
+					A(tk,tk), T(tk,tk), Q(tk,tj) );
+		}
+	}
 }

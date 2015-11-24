@@ -9,7 +9,8 @@ PLASMA_INC_DIR = $(PLASMA_ROOT)/include
 PLASMA_LIB_DIR = $(PLASMA_ROOT)/lib
 PLASMA_LIBS = -lplasma -lcoreblas -lquark -lpthread
 #
-TMATRIX_ROOT = /Users/stomo/WorkSpace/TileAlgorithm/TileMatrix
+#TMATRIX_ROOT = /Users/stomo/WorkSpace/TileAlgorithm/TileMatrix
+TMATRIX_ROOT = /home/stomo/WorkSpace/TileMatrix
 TMATRIX_INC_DIR = $(TMATRIX_ROOT)
 TMATRIX_LIB_DIR = $(TMATRIX_ROOT)
 TMATRIX_LIBS = -lTileMatrix

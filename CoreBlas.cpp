@@ -30,13 +30,13 @@
  */
 void GEQRT( BMatrix *A, BMatrix *T )
 {
-	const unsigned int M = A->m();
-	const unsigned int N = A->n();
-	const unsigned int IB = A->ib();
-	const unsigned int LDA = A->m();
-	const unsigned int LDT = T->m();
+	const int M = A->m();
+	const int N = A->n();
+	const int IB = A->ib();
+	const int LDA = A->m();
+	const int LDT = T->m();
 
-	const unsigned int NB = max(LDA,LDT);
+	const int NB = max(LDA,LDT);
 
 	double* WORK = new double[ IB*NB ];
 	double* TAU = new double[ NB ];
@@ -59,17 +59,17 @@ void GEQRT( BMatrix *A, BMatrix *T )
  */
 void TSQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
 {
-	const unsigned int M = A2->m();
-	const unsigned int N = A1->n();
+	const int M = A2->m();
+	const int N = A1->n();
 
 	assert( N == A2->n() );
 
-	const unsigned int IB = A1->ib();
-	const unsigned int LDA1 = A1->m();
-	const unsigned int LDA2 = A2->m();
-	const unsigned int LDT = T->m();
+	const int IB = A1->ib();
+	const int LDA1 = A1->m();
+	const int LDA2 = A2->m();
+	const int LDT = T->m();
 
-	const unsigned int NB = max(LDA1,LDT);
+	const int NB = max(LDA1,LDT);
 
 	double* WORK = new double[ IB*NB ];
 	double* TAU = new double[ NB ];
@@ -105,21 +105,21 @@ void LARFB( PLASMA_enum side, PLASMA_enum trans,
 	assert( (side==PlasmaLeft) || (side==PlasmaRight) );
 	assert( (trans==PlasmaTrans) || (trans==PlasmaNoTrans) );
 
-	const unsigned int M = C->m();
-	const unsigned int N = C->n();
-	const unsigned int K = A->n();
+	const int M = C->m();
+	const int N = C->n();
+	const int K = A->n();
 
 	if (side == PlasmaLeft)
 		assert( M >= K );
 	else // (side == PlasmaRight)
 		assert( N >= K );
 
-	const unsigned int IB = A->ib();
-	const unsigned int LDA = A->m();
-	const unsigned int LDT = T->m();
-	const unsigned int LDC = C->m();
+	const int IB = A->ib();
+	const int LDA = A->m();
+	const int LDT = T->m();
+	const int LDC = C->m();
 
-	const unsigned int NB = max(LDA,LDT);
+	const int NB = max(LDA,LDT);
 
 	double* WORK = new double[ IB*NB ];
 
@@ -156,25 +156,25 @@ void SSRFB( PLASMA_enum side, PLASMA_enum trans,
 	assert( (side==PlasmaLeft) || (side==PlasmaRight) );
 	assert( (trans==PlasmaTrans) || (trans==PlasmaNoTrans) );
 
-	const unsigned int M1 = C1->m();
-	const unsigned int M2 = C2->m();
+	const int M1 = C1->m();
+	const int M2 = C2->m();
 
 	if (side == PlasmaRight)
 		assert( M2 == M1);
 
-	const unsigned int N1 = C1->n();
-	const unsigned int N2 = C2->n();
+	const int N1 = C1->n();
+	const int N2 = C2->n();
 
 	if (side == PlasmaLeft)
 		assert( N2 == N1);
 
-	const unsigned int K = A->n();
+	const int K = A->n();
 
-	const unsigned int IB = C1->ib();
-	const unsigned int LDA1 = C1->m();
-	const unsigned int LDA2 = C2->m();
-	const unsigned int LDV = A->m();
-	const unsigned int LDT = T->m();
+	const int IB = C1->ib();
+	const int LDA1 = C1->m();
+	const int LDA2 = C2->m();
+	const int LDV = A->m();
+	const int LDT = T->m();
 
 	int LDWORK;
 	if (side == PlasmaLeft)
@@ -219,17 +219,17 @@ void SSRFB( PLASMA_enum side, PLASMA_enum trans,
  */
 void TTQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
 {
-	const unsigned int M = A2->m();
-	const unsigned int N = A1->n();
+	const int M = A2->m();
+	const int N = A1->n();
 
 	assert( N == A2->n() );
 
-	const unsigned int IB = A1->ib();
-	const unsigned int LDA1 = A1->m();
-	const unsigned int LDA2 = A2->m();
-	const unsigned int LDT = T->m();
+	const int IB = A1->ib();
+	const int LDA1 = A1->m();
+	const int LDA2 = A2->m();
+	const int LDT = T->m();
 
-	const unsigned int NB = max(LDA1,LDT);
+	const int NB = max(LDA1,LDT);
 
 	double* WORK = new double[ IB*NB ];
 	double* TAU = new double[ NB ];
@@ -267,27 +267,27 @@ void STRFB( PLASMA_enum side, PLASMA_enum trans,
 	assert( (side==PlasmaLeft) || (side==PlasmaRight) );
 	assert( (trans==PlasmaTrans) || (trans==PlasmaNoTrans) );
 
-	const unsigned int M1 = C1->m();
-	const unsigned int M2 = C2->m();
+	const int M1 = C1->m();
+	const int M2 = C2->m();
 
-	const unsigned int N1 = C1->n();
-	const unsigned int N2 = C2->n();
+	const int N1 = C1->n();
+	const int N2 = C2->n();
 
-	const unsigned int K = A->n();
+	const int K = A->n();
 
-	const unsigned int IB = C1->ib();
-	const unsigned int LDA1 = C1->m();
-	const unsigned int LDA2 = C2->m();
-	const unsigned int LDV = A->m();
-	const unsigned int LDT = T->m();
+	const int IB = C1->ib();
+	const int LDA1 = C1->m();
+	const int LDA2 = C2->m();
+	const int LDV = A->m();
+	const int LDT = T->m();
 
-	unsigned int LDWORK;
+	int LDWORK;
 	if (side == PlasmaLeft)
 		LDWORK = IB;
 	else // side == PlasmaRight
 		LDWORK = M1;
 
-	unsigned int WSIZE;
+	int WSIZE;
 	if (side == PlasmaLeft)
 		WSIZE = N1;
 	else // side == PlasmaRight

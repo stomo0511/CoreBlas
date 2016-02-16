@@ -8,7 +8,8 @@
 
 #include <cassert>
 #include <omp.h>
-#include "CoreBlas.hpp"
+
+#include "CoreBlasTile.hpp"
 
 #ifndef __DEF__MIN__
 #define __DEF__MIN__

@@ -9,8 +9,9 @@
 #include <omp.h>
 #include <cassert>
 
-#include "BMatrix.hpp"
-#include "CoreBlas.hpp"
+#include "TMatrix.hpp"
+
+#include "CoreBlasTile.hpp"
 
 using namespace std;
 
@@ -47,7 +48,11 @@ int main(int argc, char* argv[])
 	{
 		TMatrix A(m,n,b,b,s);
 		A.Set_Rnd(20160213);
-		A.File_Out("CoreBlasTest.in");
+
+		Matrix Ma(m,n);
+		A.Mat_Copy(Ma);
+		cout << "Input matrix:\n";
+		Ma.Show_all();
 
 		int p = m/b;
 
@@ -59,6 +64,8 @@ int main(int argc, char* argv[])
 		SSRFB( PlasmaLeft, PlasmaTrans, A(1,0), T(1,0), A(0,1), A(1,1) );
 		GEQRT( A(1,1), T(1,1) );
 
-		A.File_Out("CoreBlasTest.out");
+		A.Mat_Copy(Ma);
+		cout << "Output matrix (after k=0 step):\n";
+		Ma.Show_all();
 	}
 }

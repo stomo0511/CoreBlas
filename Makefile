@@ -19,9 +19,9 @@ CXX = /usr/local/bin/g++
 CXXFLAGS = -g -Wall -fopenmp -DDEBUG -I$(BLAS_INC_DIR) -I$(PLASMA_INC_DIR) -I$(TMATRIX_INC_DIR)
 #CXXFLAGS = -O3 -fopenmp -DDEBUG -I$(BLAS_INC_DIR) -I$(PLASMA_INC_DIR) -I$(TMATRIX_INC_DIR)
 
-LOBJS =		CoreBlas.o
+LOBJS =		CoreBlasTile.o
 
-LIBS = libCoreBlas.a
+LIBS = libCoreBlasTile.a
 
 TARGET = test
 
@@ -29,13 +29,13 @@ $(LIBS):	$(LOBJS)
 	$(AR) r $(LIBS) $(LOBJS)
 	ranlib $(LIBS)
 
-$(TARGET): CoreBlasTest.o $(LIBS)
-	$(CXX) $(CXXFLAGS) -o $@ CoreBlasTest.o $(LIBS) -L$(TMATRIX_LIB_DIR) $(TMATRIX_LIBS) -L$(PLASMA_LIB_DIR) $(PLASMA_LIBS) -L$(BLAS_LIB_DIR) $(BLAS_LIBS)
-
+$(TARGET): CoreBlasTileTest.o $(LIBS)
+	$(CXX) $(CXXFLAGS) -o $@ CoreBlasTileTest.o $(LIBS) -L$(TMATRIX_LIB_DIR) $(TMATRIX_LIBS) -L$(PLASMA_LIB_DIR) $(PLASMA_LIBS) -L$(BLAS_LIB_DIR) $(BLAS_LIBS)
+	
 all:	$(LIBS)
 
 clean:
-	rm -f $(LOBJS) $(LIBS)
+	rm -f *.o $(LOBJS) $(LIBS)
 
 .cpp.o :
 	$(CXX) $(CXXFLAGS) -c $<

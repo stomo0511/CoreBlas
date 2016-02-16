@@ -5,8 +5,8 @@
  *      Author: stomo
  */
 
-#ifndef COREBLAS_HPP_
-#define COREBLAS_HPP_
+#ifndef COREBLASTILE_HPP_
+#define COREBLASTILE_HPP_
 
 #include <iostream>
 #include <plasma.h>
@@ -29,4 +29,4 @@ void STRFB( PLASMA_enum side, PLASMA_enum trans,
 void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q );
 
 
-#endif /* COREBLAS_HPP_ */
+#endif /* COREBLASTILE_HPP_ */

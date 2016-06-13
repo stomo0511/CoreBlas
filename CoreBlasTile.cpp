@@ -317,7 +317,7 @@ void STRFB( PLASMA_enum side, PLASMA_enum trans,
  */
 void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q )
 {
-	assert( A.N() == Q.N() );
+	assert( A.M() == Q.M() );
 
 	const int aMT = A.mt();
 	const int aNT = A.nt();
@@ -351,7 +351,7 @@ void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q )
  * @param[in,out] A
  *
  */
-void POTRF( BMatrix *A )
+/*void POTRF( BMatrix *A )
 {
 	const int M = A->m();
 	const int N = A->n();
@@ -363,7 +363,7 @@ void POTRF( BMatrix *A )
 			M,
 			A->top(), LDA,
 			&info );
-}
+}*/
 
 /*
  * SYRK Performs one of the hermitian rank k operations
@@ -412,7 +412,7 @@ void POTRF( BMatrix *A )
  *          The leading dimension of the array C. LDC >= max( 1, N ).
  *
  */
-void SYRK( BMatrix *A, BMatrix *C )
+/*void SYRK( BMatrix *A, BMatrix *C )
 {
 
 	const int M = A->m();
@@ -424,7 +424,7 @@ void SYRK( BMatrix *A, BMatrix *C )
 		 M, M,
          -1.0, A->top(), M,
           1.0, C->top(), M);
-}
+}*/
 
 /*
  *  TRSM - Computes triangular solve X*A = B.
@@ -470,7 +470,7 @@ void SYRK( BMatrix *A, BMatrix *C )
  * @param[in] LDB
  *          The leading dimension of the array B. LDB >= max(1,M).
   */
-void TRSM( BMatrix *A, BMatrix *B )
+/*void TRSM( BMatrix *A, BMatrix *B )
 {
 	const int M = A->m();
 	const int N = B->n();
@@ -482,7 +482,7 @@ void TRSM( BMatrix *A, BMatrix *B )
 			1.0,
 			A->top(), M,
 			B->top(), M );
-}
+}*/
 
 /*
  *  *  GEMM - Performs one of the matrix-matrix operations
@@ -545,7 +545,7 @@ void TRSM( BMatrix *A, BMatrix *B )
  *
 
  */
-void GEMM( BMatrix *A, BMatrix *B, BMatrix *C )
+/*void GEMM( BMatrix *A, BMatrix *B, BMatrix *C )
 {
 
     CORE_dgemm( PlasmaNoTrans, PlasmaTrans,
@@ -555,4 +555,4 @@ void GEMM( BMatrix *A, BMatrix *B, BMatrix *C )
                A(k, n), ldak,
         1.0, A(m, k), ldam);
 
-}
+}*/

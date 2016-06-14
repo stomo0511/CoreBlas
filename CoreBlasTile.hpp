@@ -25,7 +25,7 @@ void SSRFB( PLASMA_enum side, PLASMA_enum trans,
 
 // for TSQR
 void TTQRT( BMatrix *A1, BMatrix *A2, BMatrix *T );
-void STRFB( PLASMA_enum side, PLASMA_enum trans,
+void TTMQR( PLASMA_enum side, PLASMA_enum trans,
 		   BMatrix *A, BMatrix *T, BMatrix *C1, BMatrix *C2 );
 
 // for check QR

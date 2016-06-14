@@ -202,14 +202,6 @@ void SSRFB( PLASMA_enum side, PLASMA_enum trans,
 	delete [] WORK;
 }
 
-/*
- * dorgqr: genarates (M x N) orthogonal matrix Q: A = Q x R
- *
- * @param[in] A tile matrix
- * @param[in] T tile matrix
- * @param[in] Q tile matirx
- *
- */
 
 /*
  * TTQRT conputes a QR factorization of a rectangular matrix formed by cupling (N x N) upper triangular tile A1 on top of (M x N) upper trapezoidal tile A2
@@ -246,7 +238,7 @@ void TTQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
 }
 
 /*
- * STRFB updates (M1 x N1) tile C1 and (M2 x N2) tile C2 with the transformation formed with A and T
+ * TTMQR updates (M1 x N1) tile C1 and (M2 x N2) tile C2 with the transformation formed with A and T
  *
  * @param[in] side
  *		@arg PlasmaLeft:  apply transformation from the left
@@ -261,7 +253,7 @@ void TTQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
  * @param[in,out] C1 (M1 x N1) tile matrix
  * @param[in,out] C2 (M2 x N2) tile matrix
  */
-void STRFB( PLASMA_enum side, PLASMA_enum trans,
+void TTMQR( PLASMA_enum side, PLASMA_enum trans,
 		BMatrix *A, BMatrix *T,
 	    BMatrix *C1, BMatrix *C2 )
 {
@@ -343,7 +335,6 @@ void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q )
 		}
 	}
 }
-
 
 /*
  * POTRF Computes the Cholesky factorization of a symmetric positive definite matrix A

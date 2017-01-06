@@ -17,10 +17,10 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	int m = 10;
-	int n = 8;
-	int b = 5;
-	int s = 2;
+	int m = 40;
+	int n = 38;
+	int b = 10;
+	int s = 5;
 
 	// for Single tile
 	cout << "For Single Tile:\n";

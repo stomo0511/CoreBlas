@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
 	int b = 10;
 	int s = 5;
 
+	cout << "Test for QR kernels\n";
 	// for Single tile
 	cout << "For Single Tile:\n";
 	{
@@ -67,5 +68,25 @@ int main(int argc, char* argv[])
 		A.Mat_Copy(Ma);
 		cout << "Output matrix (after k=0 step):\n";
 		Ma.Show_all();
+	}
+
+	cout << "Test for LU kernels\n";
+	// for Single tile
+	cout << "For Single Tile:\n";
+	{
+		BMatrix A(b,b,s);
+		int* PIV = new int[ b ];
+
+		A.Set_Rnd(20151008);
+		A.Show_all();
+
+		GETRF( &A, PIV );
+		A.Show_all();
+
+		for (int i=0; i<b; i++)
+			cout << PIV[i] << ", ";
+		cout << endl;
+
+		delete [] PIV;
 	}
 }

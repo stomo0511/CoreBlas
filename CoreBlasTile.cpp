@@ -24,7 +24,7 @@
 #endif
 
 /*
- * GEQRT conputes a QR factorization of a tile A: A = Q * R
+ * GEQRT computes a QR factorization of a tile A: A = Q * R
  *
  * @param A (M x N) tile matrix
  * @param T (IB x N) upper triangular block reflector
@@ -547,3 +547,85 @@ void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q )
         1.0, A(m, k), ldam);
 
 }*/
+
+// for LU
+/*
+ * GETRF computes an LU factorization of a tile A: A = P * L * U
+ * using partial tile pivoting with row interchanges (incremental pivoting)
+ *
+ * @param A (M x N) tile matrix
+ * @param PIV (M) pivot indices the define the permutations
+ */
+void GETRF( BMatrix *A, int *PIV )
+{
+	const int M = A->m();
+	const int N = A->n();
+	const int IB = A->ib();
+	const int LDA = A->m();
+
+	int info;
+
+	int ret = CORE_dgetrf_incpiv( M, N, IB, A->top(), LDA, PIV, &info );
+
+	assert(info==0);
+	//  0 on successful exit
+	// <0 if -i, the i-th argument had an illegal value
+	// >0 if i, U(i,i) is exactly zero
+
+	assert(ret==PLASMA_SUCCESS);
+}
+
+ /*
+  * TSTRF computes an LU factorization of a tile formed by an upper triangular (NB x N) tile U
+  * on top of a (M x N) tile A using partial tile pivoting with row interchanges
+  *
+  * @param A (M x N) tile matrix
+  * @param PIV (M) pivot indices the define the permutations
+  */
+void TSTRF( BMatrix *U, BMatrix *A, BMatrix *L, int *PIV )
+{
+	const int M = A->m();
+	const int N = A->n();
+	const int IB = A->ib();
+	const int LDA = A->m();
+
+	int info;
+
+	// PLASMA tile LU with incpiv では連立方程式を解くために L が必要
+	int ret = CORE_dtstrf(int M, int N, int IB, int NB,
+            double *U, int LDU,
+            double *A, int LDA,
+            double *L, int LDL,
+            int PIV,
+            double *WORK, int LDWORK,
+            &info );
+
+	assert(info==0);
+	//  0 on successful exit
+	// <0 if -i, the i-th argument had an illegal value
+	// >0 if i, U(i,i) is exactly zero
+
+	assert(ret==PLASMA_SUCCESS);
+}
+
+/*
+ * GESSM applies the factors L computed by GETRF to a (M,N) tile A
+ */
+void GESSM( BMatrix *L, BMatrix *A, const int *PIV )
+{
+	const int M = A->m();
+	const int N = A->n();
+	const int K = L->n();
+	const int IB = A->ib();
+	const int LDA = A->m();
+	const int LDL = L->m();
+
+	int ret = CORE_dgessm( M, N, K, IB, PIV, L->top(), LDL, A->top(), LDA );
+
+	assert(ret==PLASMA_SUCCESS);
+}
+
+void SSSM( BMatrix *A, BMatrix *B, BMatrix *C )
+{
+
+}

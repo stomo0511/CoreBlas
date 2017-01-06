@@ -38,8 +38,8 @@ void TRSM( BMatrix *A, BMatrix *B );
 void GEMM( BMatrix *A, BMatrix *B, BMatrix *C );
 
 // for LU
-void GETRF( BMatrix *Akk, BMatrix *Pkk );
-void GESSM( BMatrix *A1, BMatrix *A2, BMAtrix *P );
+void GETRF( BMatrix *A, int *PIV );
+void GESSM( BMatrix *L, BMatrix *A, const int *PIV );
 void TSTRF( BMatrix *A1, BMatrix *A2, BMatrix *P );
 void SSSM( BMatrix *A, BMatrix *B, BMatrix *C );
 

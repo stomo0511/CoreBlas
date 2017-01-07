@@ -19,8 +19,8 @@ int main(int argc, char* argv[])
 {
 	int m = 40;
 	int n = 38;
-	int b = 10;
-	int s = 5;
+	int b = 8;
+	int s = 4;
 
 	cout << "Test for QR kernels\n";
 	// for Single tile
@@ -74,18 +74,44 @@ int main(int argc, char* argv[])
 	// for Single tile
 	cout << "For Single Tile:\n";
 	{
-		BMatrix A(b,b,s);
+		BMatrix A1(b,b,s);
+		BMatrix A2(b,b,s);
+		BMatrix L(s,b,s);
 		int* PIV = new int[ b ];
 
-		A.Set_Rnd(20151008);
-		A.Show_all();
+		A1.Set_Rnd(20151008);
 
-		GETRF( &A, PIV );
-		A.Show_all();
+		cout << "A1: \n";
+		A1.Show_all();
 
+		GETRF( &A1, PIV );
+
+		cout << "U: \n";
+		A1.Show_all();
+
+		cout << "PIV: \n";
 		for (int i=0; i<b; i++)
 			cout << PIV[i] << ", ";
-		cout << endl;
+		cout << endl << endl;
+
+		A2.Set_Rnd(20170107);
+
+		cout << "A2: \n";
+		A2.Show_all();
+
+		TSTRF( &A1, &A2, &L, PIV );
+
+		cout << "U:\n";
+		A1.Show_all();
+		cout << "L:\n";
+		A2.Show_all();
+		cout << "L?:\n";
+		L.Show_all();
+
+		cout << "PIV: \n";
+		for (int i=0; i<b; i++)
+			cout << PIV[i] << ", ";
+		cout << endl << endl;
 
 		delete [] PIV;
 	}

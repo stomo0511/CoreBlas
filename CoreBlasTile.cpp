@@ -584,20 +584,28 @@ void GETRF( BMatrix *A, int *PIV )
   */
 void TSTRF( BMatrix *U, BMatrix *A, BMatrix *L, int *PIV )
 {
+	const int NB = U->m();
+	const int N = U->n();
 	const int M = A->m();
-	const int N = A->n();
-	const int IB = A->ib();
+	const int IB = L->m();
+	const int LDU = U->m();
 	const int LDA = A->m();
+	const int LDL = L->m();
+
+	assert(N==A->n());
+	assert(N==L->n());
+
+	double* WORK = new double[ M*N ];
+	const int LDWORK = M;
 
 	int info;
 
-	// PLASMA tile LU with incpiv では連立方程式を解くために L が必要
-	int ret = CORE_dtstrf(int M, int N, int IB, int NB,
-            double *U, int LDU,
-            double *A, int LDA,
-            double *L, int LDL,
-            int PIV,
-            double *WORK, int LDWORK,
+	int ret = CORE_dtstrf( M, N, IB, NB,
+			U->top(), LDU,
+			A->top(), LDA,
+            L->top(), LDL,
+			PIV,
+            WORK, LDWORK,
             &info );
 
 	assert(info==0);
@@ -606,6 +614,8 @@ void TSTRF( BMatrix *U, BMatrix *A, BMatrix *L, int *PIV )
 	// >0 if i, U(i,i) is exactly zero
 
 	assert(ret==PLASMA_SUCCESS);
+
+	delete [] WORK;
 }
 
 /*

@@ -39,8 +39,8 @@ void GEMM( BMatrix *A, BMatrix *B, BMatrix *C );
 
 // for LU
 void GETRF( BMatrix *A, int *PIV );
-void GESSM( BMatrix *L, BMatrix *A, const int *PIV );
 void TSTRF( BMatrix *U, BMatrix *A, BMatrix *L, int *PIV );
-void SSSM( BMatrix *A, BMatrix *B, BMatrix *C );
+void GESSM( BMatrix *L, BMatrix *A, const int *PIV );
+void SSSSM( BMatrix *L1, BMatrix *L2, BMatrix *A1, BMatrix *A2, const int *PIV );
 
 #endif /* COREBLASTILE_HPP_ */

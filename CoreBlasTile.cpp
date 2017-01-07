@@ -635,7 +635,33 @@ void GESSM( BMatrix *L, BMatrix *A, const int *PIV )
 	assert(ret==PLASMA_SUCCESS);
 }
 
-void SSSM( BMatrix *A, BMatrix *B, BMatrix *C )
+/*
+ * SSSSM applies the LU factorization update from a matrix formed by
+ * a lower triangular (IB,K) tile L1 on top of a (M2,K) tile L2 to
+ * a second matrix formed by a (M1,N1) tile A1 on top of a (M2,N2) tile A2 (N1 == N2).
+ */
+void SSSSM( BMatrix *L1, BMatrix *L2, BMatrix *A1, BMatrix *A2, const int *PIV )
 {
+	const int M1 = A1->m();
+	const int N1 = A1->n();
+	const int M2 = A2->m();
+	const int N2 = A2->n();
+	const int K = L1->n();
+	const int IB = A1->ib();
+	const int LDA1 = A1->m();
+	const int LDA2 = A2->m();
+	const int LDL1 = L1->m();
+	const int LDL2 = L2->m();
 
+	assert(M2==L2->m());
+	assert(K==L2->n());
+
+	int ret = CORE_dssssm( M1, N1, M2, N2, K, IB,
+			A1->top(), LDA1,
+			A2->top(), LDA2,
+			L1->top(), LDL1,
+			L2->top(), LDL2,
+			PIV);
+
+	assert(ret==PLASMA_SUCCESS);
 }

@@ -17,10 +17,10 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	int m = 40;
-	int n = 38;
-	int b = 8;
-	int s = 4;
+	int m = 8;
+	int n = 8;
+	int b = 4;
+	int s = 2;
 
 	cout << "Test for QR kernels\n";
 	// for Single tile
@@ -114,5 +114,54 @@ int main(int argc, char* argv[])
 		cout << endl << endl;
 
 		delete [] PIV;
+	}
+
+	// for Tile matrix
+	cout << endl << "For Tile Matrix:\n";
+	{
+		TMatrix A(m,n,b,b,s);
+		A.Set_Rnd(20160213);
+
+		BMatrix L(s,b,s);
+		int* PIV = new int[ b ];
+
+		cout << "Input matrix:\n";
+		A(0,0)->Show_all();
+		A(0,1)->Show_all();
+		A(1,0)->Show_all();
+		A(1,1)->Show_all();
+
+		GETRF( A(0,0), PIV );
+		GESSM( A(0,0), A(0,1), PIV );
+
+		cout << "PIV: \n";
+				for (int i=0; i<b; i++)
+					cout << PIV[i] << ", ";
+				cout << endl << endl;
+
+		TSTRF( A(0,0), A(1,0), &L, PIV );
+		SSSSM( &L, A(1,0), A(0,1), A(1,1), PIV );
+
+		cout << "PIV: \n";
+				for (int i=0; i<b; i++)
+					cout << PIV[i] << ", ";
+				cout << endl << endl;
+
+		GETRF( A(1,1), PIV );
+
+		cout << "Output matrix:\n";
+		A(0,0)->Show_all();
+		A(0,1)->Show_all();
+		A(1,0)->Show_all();
+		A(1,1)->Show_all();
+
+
+		cout << "PIV: \n";
+		for (int i=0; i<b; i++)
+			cout << PIV[i] << ", ";
+		cout << endl << endl;
+
+		delete [] PIV;
+
 	}
 }

@@ -595,7 +595,7 @@ void TSTRF( BMatrix *U, BMatrix *A, BMatrix *L, int *PIV )
 	assert(N==A->n());
 	assert(N==L->n());
 
-	double* WORK = new double[ M*N ];
+	double* WORK = new double[ L->m() * L->n() ];
 	const int LDWORK = M;
 
 	int info;

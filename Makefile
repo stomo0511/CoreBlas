@@ -32,7 +32,7 @@ $(LIBS):	$(LOBJS)
 $(TARGET): CoreBlasTileTest.o $(LIBS)
 	$(CXX) $(CXXFLAGS) -o $@ CoreBlasTileTest.o $(LIBS) -L$(TMATRIX_LIB_DIR) $(TMATRIX_LIBS) -L$(PLASMA_LIB_DIR) $(PLASMA_LIBS) -L$(BLAS_LIB_DIR) $(BLAS_LIBS)
 	
-all:	$(LIBS)
+all:	$(LIBS) $(TARGET)
 
 clean:
 	rm -f *.o $(LOBJS) $(LIBS)

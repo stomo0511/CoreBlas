@@ -70,6 +70,7 @@ int main(int argc, char* argv[])
 		Ma.Show_all();
 	}
 
+/*
 	cout << "Test for LU kernels\n";
 	// for Single tile
 	cout << "For Single Tile:\n";
@@ -115,9 +116,10 @@ int main(int argc, char* argv[])
 
 		delete [] PIV;
 	}
+*/
 
 	// for Tile matrix
-	cout << endl << "For Tile Matrix:\n";
+/*	cout << endl << "For Tile Matrix:\n";
 	{
 		TMatrix A(m,n,b,b,s);
 		A.Set_Rnd(20160213);
@@ -163,5 +165,5 @@ int main(int argc, char* argv[])
 
 		delete [] PIV;
 
-	}
+	}*/
 }

@@ -1,13 +1,13 @@
 #
-BLAS_ROOT = /opt/OpenBLAS
+BLAS_ROOT = /opt/intel/compilers_and_libraries/mac/mkl
 BLAS_INC_DIR = $(BLAS_ROOT)/include
 BLAS_LIB_DIR = $(BLAS_ROOT)/lib
-BLAS_LIBS = -lopenblas_seq
+BLAS_LIBS = -lmkl_intel_ilp64 -lmkl_sequential -lmkl_core -lgomp -lpthread -ldl -lm
 #
-PLASMA_ROOT = /opt/PLASMA
+PLASMA_ROOT = /opt/plasma-17.1
 PLASMA_INC_DIR = $(PLASMA_ROOT)/include
 PLASMA_LIB_DIR = $(PLASMA_ROOT)/lib
-PLASMA_LIBS = -lplasma -lcoreblas -lquark -lpthread
+PLASMA_LIBS = -lcoreblas -lplasma
 #
 TMATRIX_ROOT = /Users/stomo/WorkSpace/TileAlgorithm/TileMatrix
 #TMATRIX_ROOT = /home/stomo/WorkSpace/TileMatrix

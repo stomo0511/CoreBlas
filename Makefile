@@ -1,23 +1,29 @@
 #
+UNAME = $(shell uname)
+ifeq ($(UNAME),Linux)
+  TMATRIX_ROOT = /home/stomo/WorkSpace/TileMatrix
+  CXX =	g++
+endif
+ifeq ($(UNAME),Darwin)
+  TMATRIX_ROOT = /Users/stomo/WorkSpace/TileAlgorithm/TileMatrix
+  CXX =	/usr/local/bin/g++ 
+endif
+#
 BLAS_ROOT = /opt/OpenBLAS
 BLAS_INC_DIR = $(BLAS_ROOT)/include
 BLAS_LIB_DIR = $(BLAS_ROOT)/lib
 BLAS_LIBS = -lopenblas_seq
 #
-PLASMA_ROOT = /opt/PLASMA
+PLASMA_ROOT = /opt/plasma-17.1
 PLASMA_INC_DIR = $(PLASMA_ROOT)/include
 PLASMA_LIB_DIR = $(PLASMA_ROOT)/lib
-PLASMA_LIBS = -lplasma -lcoreblas -lquark -lpthread
+PLASMA_LIBS = -lcoreblas -lplasma
 #
-TMATRIX_ROOT = /Users/stomo/WorkSpace/TileAlgorithm/TileMatrix
-#TMATRIX_ROOT = /home/stomo/WorkSpace/TileMatrix
 TMATRIX_INC_DIR = $(TMATRIX_ROOT)
 TMATRIX_LIB_DIR = $(TMATRIX_ROOT)
 TMATRIX_LIBS = -lTileMatrix
 #
-CXX = /usr/local/bin/g++
-CXXFLAGS = -g -Wall -fopenmp -DDEBUG -I$(BLAS_INC_DIR) -I$(PLASMA_INC_DIR) -I$(TMATRIX_INC_DIR)
-#CXXFLAGS = -O3 -fopenmp -DDEBUG -I$(BLAS_INC_DIR) -I$(PLASMA_INC_DIR) -I$(TMATRIX_INC_DIR)
+CXXFLAGS =	-fopenmp -m64 -O2 -I$(BLAS_INC_DIR) -I$(PLASMA_INC_DIR) -I$(TMATRIX_INC_DIR)
 
 LOBJS =		CoreBlasTile.o
 

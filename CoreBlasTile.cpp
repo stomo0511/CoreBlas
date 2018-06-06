@@ -42,7 +42,7 @@ void GEQRT( BMatrix *A, BMatrix *T )
 	double* WORK = new double[ IB*NB ];
 	double* TAU = new double[ NB ];
 
-	CORE_dgeqrt( M, N, IB,
+	core_dgeqrt( M, N, IB,
 			A->top(), LDA,
 			T->top(), LDT,
 			TAU, WORK );
@@ -75,7 +75,7 @@ void TSQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
 	double* WORK = new double[ IB*NB ];
 	double* TAU = new double[ NB ];
 
-	CORE_dtsqrt( M, N, IB,
+	core_dtsqrt( M, N, IB,
 			A1->top(), LDA1,
 			A2->top(), LDA2,
 			T->top(), LDT,
@@ -100,7 +100,7 @@ void TSQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
  * @param[in] T (IB x K) upper triangular block reflector
  * @param[in,out] C (M x N) tile matrix
  */
-void LARFB( PLASMA_enum side, PLASMA_enum trans,
+void LARFB( plasma_enum_t side, plasma_enum_t trans,
 		BMatrix *A, BMatrix *T, BMatrix *C )
 {
 	assert( (side==PlasmaLeft) || (side==PlasmaRight) );
@@ -124,7 +124,7 @@ void LARFB( PLASMA_enum side, PLASMA_enum trans,
 
 	double* WORK = new double[ IB*NB ];
 
-	CORE_dormqr( side, trans,
+	core_dormqr( side, trans,
 			M, N, K, IB,
 			A->top(), LDA,
 			T->top(), LDT,
@@ -150,7 +150,7 @@ void LARFB( PLASMA_enum side, PLASMA_enum trans,
  * @param[in,out] C1 (M1 x N1) tile matrix
  * @param[in,out] C2 (M2 x N2) tile matrix
  */
-void SSRFB( PLASMA_enum side, PLASMA_enum trans,
+void SSRFB( plasma_enum_t side, plasma_enum_t trans,
 		BMatrix *A, BMatrix *T,
 	    BMatrix *C1, BMatrix *C2 )
 {
@@ -191,7 +191,7 @@ void SSRFB( PLASMA_enum side, PLASMA_enum trans,
 
 	double* WORK = new double[ LDWORK * WSIZE ];
 
-	CORE_dtsmqr( side, trans,
+	core_dtsmqr( side, trans,
 			M1, N1, M2, N2, K, IB,
 			C1->top(), LDA1,
 			C2->top(), LDA2,
@@ -227,7 +227,7 @@ void TTQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
 	double* WORK = new double[ IB*NB ];
 	double* TAU = new double[ NB ];
 
-	CORE_dttqrt( M, N, IB,
+	core_dttqrt( M, N, IB,
 			A1->top(), LDA1,
 			A2->top(), LDA2,
 			T->top(), LDT,
@@ -253,7 +253,7 @@ void TTQRT( BMatrix *A1, BMatrix *A2, BMatrix *T )
  * @param[in,out] C1 (M1 x N1) tile matrix
  * @param[in,out] C2 (M2 x N2) tile matrix
  */
-void TTMQR( PLASMA_enum side, PLASMA_enum trans,
+void TTMQR( plasma_enum_t side, plasma_enum_t trans,
 		BMatrix *A, BMatrix *T,
 	    BMatrix *C1, BMatrix *C2 )
 {
@@ -288,7 +288,7 @@ void TTMQR( PLASMA_enum side, PLASMA_enum trans,
 
 	double* WORK = new double[ LDWORK * WSIZE ];
 
-	CORE_dttmqr( side, trans,
+	core_dttmqr( side, trans,
 			M1, N1, M2, N2, K, IB,
 			C1->top(), LDA1,
 			C2->top(), LDA2,
@@ -350,7 +350,7 @@ void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q )
 
 	int info;
 
-	CORE_dpotrf( PlasmaLower,
+	core_dpotrf( PlasmaLower,
 			M,
 			A->top(), LDA,
 			&info );
@@ -410,7 +410,7 @@ void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q )
 
 	assert( M == C->m() );
 
-    CORE_dsyrk(
+    core_dsyrk(
          PlasmaLower, PlasmaNoTrans,
 		 M, M,
          -1.0, A->top(), M,
@@ -468,7 +468,7 @@ void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q )
 
 	assert ( M == B->m() );
 
-	CORE_dtrsm( PlasmaRight, PlasmaLower, PlasmaTrans, PlasmaNonUnit,
+	core_dtrsm( PlasmaRight, PlasmaLower, PlasmaTrans, PlasmaNonUnit,
 			M, N,
 			1.0,
 			A->top(), M,
@@ -539,7 +539,7 @@ void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q )
 /*void GEMM( BMatrix *A, BMatrix *B, BMatrix *C )
 {
 
-    CORE_dgemm( PlasmaNoTrans, PlasmaTrans,
+    core_dgemm( PlasmaNoTrans, PlasmaTrans,
         tempmn, A.nb, A.nb,
         -1.0,
 		A(m, n), ldam,
@@ -556,24 +556,24 @@ void dorgqr( const TMatrix A, const TMatrix T, TMatrix& Q )
  * @param A (M x N) tile matrix
  * @param PIV (M) pivot indices the define the permutations
  */
-void GETRF( BMatrix *A, int *PIV )
-{
-	const int M = A->m();
-	const int N = A->n();
-	const int IB = A->ib();
-	const int LDA = A->m();
-
-	int info;
-
-	int ret = CORE_dgetrf_incpiv( M, N, IB, A->top(), LDA, PIV, &info );
-
-	assert(info==0);
-	//  0 on successful exit
-	// <0 if -i, the i-th argument had an illegal value
-	// >0 if i, U(i,i) is exactly zero
-
-	assert(ret==PLASMA_SUCCESS);
-}
+//void GETRF( BMatrix *A, int *PIV )
+//{
+//	const int M = A->m();
+//	const int N = A->n();
+//	const int IB = A->ib();
+//	const int LDA = A->m();
+//
+//	int info;
+//
+//	int ret = core_dgetrf_incpiv( M, N, IB, A->top(), LDA, PIV, &info );
+//
+//	assert(info==0);
+//	//  0 on successful exit
+//	// <0 if -i, the i-th argument had an illegal value
+//	// >0 if i, U(i,i) is exactly zero
+//
+//	assert(ret==PLASMA_SUCCESS);
+//}
 
  /*
   * TSTRF computes an LU factorization of a tile formed by an upper triangular (NB x N) tile U
@@ -582,86 +582,86 @@ void GETRF( BMatrix *A, int *PIV )
   * @param A (M x N) tile matrix
   * @param PIV (M) pivot indices the define the permutations
   */
-void TSTRF( BMatrix *U, BMatrix *A, BMatrix *L, int *PIV )
-{
-	const int NB = U->m();
-	const int N = U->n();
-	const int M = A->m();
-	const int IB = L->m();
-	const int LDU = U->m();
-	const int LDA = A->m();
-	const int LDL = L->m();
-
-	assert(N==A->n());
-	assert(N==L->n());
-
-	double* WORK = new double[ L->m() * L->n() ];
-	const int LDWORK = M;
-
-	int info;
-
-	int ret = CORE_dtstrf( M, N, IB, NB,
-			U->top(), LDU,
-			A->top(), LDA,
-            L->top(), LDL,
-			PIV,
-            WORK, LDWORK,
-            &info );
-
-	assert(info==0);
-	//  0 on successful exit
-	// <0 if -i, the i-th argument had an illegal value
-	// >0 if i, U(i,i) is exactly zero
-
-	assert(ret==PLASMA_SUCCESS);
-
-	delete [] WORK;
-}
+//void TSTRF( BMatrix *U, BMatrix *A, BMatrix *L, int *PIV )
+//{
+//	const int NB = U->m();
+//	const int N = U->n();
+//	const int M = A->m();
+//	const int IB = L->m();
+//	const int LDU = U->m();
+//	const int LDA = A->m();
+//	const int LDL = L->m();
+//
+//	assert(N==A->n());
+//	assert(N==L->n());
+//
+//	double* WORK = new double[ L->m() * L->n() ];
+//	const int LDWORK = M;
+//
+//	int info;
+//
+//	int ret = core_dtstrf( M, N, IB, NB,
+//			U->top(), LDU,
+//			A->top(), LDA,
+//            L->top(), LDL,
+//			PIV,
+//            WORK, LDWORK,
+//            &info );
+//
+//	assert(info==0);
+//	//  0 on successful exit
+//	// <0 if -i, the i-th argument had an illegal value
+//	// >0 if i, U(i,i) is exactly zero
+//
+//	assert(ret==PLASMA_SUCCESS);
+//
+//	delete [] WORK;
+//}
 
 /*
  * GESSM applies the factors L computed by GETRF to a (M,N) tile A
  */
-void GESSM( BMatrix *L, BMatrix *A, const int *PIV )
-{
-	const int M = A->m();
-	const int N = A->n();
-	const int K = L->n();
-	const int IB = A->ib();
-	const int LDA = A->m();
-	const int LDL = L->m();
-
-	int ret = CORE_dgessm( M, N, K, IB, PIV, L->top(), LDL, A->top(), LDA );
-
-	assert(ret==PLASMA_SUCCESS);
-}
+//void GESSM( BMatrix *L, BMatrix *A, const int *PIV )
+//{
+//	const int M = A->m();
+//	const int N = A->n();
+//	const int K = L->n();
+//	const int IB = A->ib();
+//	const int LDA = A->m();
+//	const int LDL = L->m();
+//
+//	int ret = core_dgessm( M, N, K, IB, PIV, L->top(), LDL, A->top(), LDA );
+//
+//	assert(ret==PLASMA_SUCCESS);
+//}
 
 /*
  * SSSSM applies the LU factorization update from a matrix formed by
  * a lower triangular (IB,K) tile L1 on top of a (M2,K) tile L2 to
  * a second matrix formed by a (M1,N1) tile A1 on top of a (M2,N2) tile A2 (N1 == N2).
  */
-void SSSSM( BMatrix *L1, BMatrix *L2, BMatrix *A1, BMatrix *A2, const int *PIV )
-{
-	const int M1 = A1->m();
-	const int N1 = A1->n();
-	const int M2 = A2->m();
-	const int N2 = A2->n();
-	const int K = L1->n();
-	const int IB = A1->ib();
-	const int LDA1 = A1->m();
-	const int LDA2 = A2->m();
-	const int LDL1 = L1->m();
-	const int LDL2 = L2->m();
-
-	assert(M2==L2->m());
-	assert(K==L2->n());
-
-	int ret = CORE_dssssm( M1, N1, M2, N2, K, IB,
-			A1->top(), LDA1,
-			A2->top(), LDA2,
-			L1->top(), LDL1,
-			L2->top(), LDL2,
-			PIV);
-
-	assert(ret==PLASMA_SUCCESS);
-}
+//void SSSSM( BMatrix *L1, BMatrix *L2, BMatrix *A1, BMatrix *A2, const int *PIV )
+//{
+//	const int M1 = A1->m();
+//	const int N1 = A1->n();
+//	const int M2 = A2->m();
+//	const int N2 = A2->n();
+//	const int K = L1->n();
+//	const int IB = A1->ib();
+//	const int LDA1 = A1->m();
+//	const int LDA2 = A2->m();
+//	const int LDL1 = L1->m();
+//	const int LDL2 = L2->m();
+//
+//	assert(M2==L2->m());
+//	assert(K==L2->n());
+//
+//	int ret = core_dssssm( M1, N1, M2, N2, K, IB,
+//			A1->top(), LDA1,
+//			A2->top(), LDA2,
+//			L1->top(), LDL1,
+//			L2->top(), LDL2,
+//			PIV);
+//
+//	assert(ret==PLASMA_SUCCESS);
+//}

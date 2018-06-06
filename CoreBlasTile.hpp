@@ -18,14 +18,14 @@
 // for QR
 void GEQRT( BMatrix *A, BMatrix *T );
 void TSQRT( BMatrix *A1, BMatrix *A2, BMatrix *T );
-void LARFB( PLASMA_enum side, PLASMA_enum trans,
+void LARFB( plasma_enum_t side, plasma_enum_t trans,
 			BMatrix *A, BMatrix *T, BMatrix *C );
-void SSRFB( PLASMA_enum side, PLASMA_enum trans,
+void SSRFB( plasma_enum_t side, plasma_enum_t trans,
 		   BMatrix *A, BMatrix *T, BMatrix *C1, BMatrix *C2 );
 
 // for TSQR
 void TTQRT( BMatrix *A1, BMatrix *A2, BMatrix *T );
-void TTMQR( PLASMA_enum side, PLASMA_enum trans,
+void TTMQR( plasma_enum_t side, plasma_enum_t trans,
 		   BMatrix *A, BMatrix *T, BMatrix *C1, BMatrix *C2 );
 
 // for check QR
